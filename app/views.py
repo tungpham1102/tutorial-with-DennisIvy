@@ -7,12 +7,8 @@ from .serializers import TaskSerializer
 # Create your views here.
 
 
-def index(request):
-    return render(request, 'index.html')
-
-
 @api_view(['GET'])
-def apiOverview(request):
+def api_overview(request):
     api_urls = {
         'List': '/task-list/',
         'Detail View': '/task-detail/<str:pk>/',
@@ -25,7 +21,7 @@ def apiOverview(request):
 
 @api_view(['GET'])
 def task_list_view(request):
-    task = Task.objects.all()
+    task = Task.objects.all().order_by('-id')
     serializer = TaskSerializer(task, many=True)
     return Response(serializer.data)
 
@@ -43,14 +39,14 @@ def task_create_view(request):
 
     if serializer.is_valid():
         serializer.save()
-        return redirect('task-list-view')
+        return redirect('/')
     return Response(serializer.data)
 
 
 @api_view(['POST'])
 def task_update_view(request, pk):
     task = Task.objects.get(id=pk)
-    serializer = TaskSerializer(instance=task, data = request.data)
+    serializer = TaskSerializer(instance=task, data=request.data)
 
     if serializer.is_valid():
         serializer.save()
