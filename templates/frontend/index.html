@@ -148,9 +148,17 @@
                 };
                 for (let i in list){
                     let editBtn = document.getElementsByClassName('edit')[i]
+                    let deleteBtn = document.getElementsByClassName('delete')[i]
+
                     editBtn.addEventListener('click', (function(item){
                         return function(){
                             editItem(item)
+                        }
+                    })(list[i]))
+
+                    deleteBtn.addEventListener('click', (function(item){
+                        return function(){
+                            deleteItem(item)
                         }
                     })(list[i]))
                 };
@@ -188,6 +196,19 @@
             console.log('Item Click', item)
             activeItem = item
             document.getElementById('title').value = activeItem.title
+        }
+
+        function deleteItem(item){
+            console.log('Delete Click')
+            fetch(`http://127.0.0.1:8000/api/task-delete-view/${item.id}/`,{
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                }
+            }).then((response) => {
+                buildList()
+            })
         }
 
 
