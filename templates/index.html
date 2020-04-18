@@ -68,8 +68,8 @@
 
     <script>
 
-    var newId = 4
-	var newTest = {'name':null, 'id':newId, 'result':null}
+    var newId = 1
+	var newTest = {'name':null, 'id':`test-${newId}`, 'result':null}
 
 	$('#add-test').on('click', function(){
         $(`.form-wrapper`).removeClass('hidden')
@@ -91,22 +91,63 @@
             alert('No Name Selected')
         } else {
             addRow(newTest)
+            createTestPOST()
             $('#test-name').val('')
 			$('#test-result').val('')
 			$('.form-wrapper').addClass('hidden')
         }
 	})
 
-	var tests = [
-		{'name':'Distillation 50%', 'id':'1', 'result':"43"},
-	    {'name':'Flash Point', 'id':'2', 'result':"61"},
-	    {'name':'Water By Karl Fischer', 'id':'3', 'result':"24"},
-	]
+	function createTestPOST(){
+        var url = '/create_test/'
+        $.ajax({
+            method: 'POST',
+            url: url,
+            data: newTest,
+            success: function(){
 
-
-	for (var i in tests){
-		addRow(tests[i])
+            }
+        })
 	}
+
+    function updateTestPOST(data){
+        var url = '/update_test/'
+        $.ajax({
+            method: 'POST',
+            url: url,
+            data: data,
+            success: function(){
+
+            }
+        })
+
+	}
+
+    function deleteTestPOST(data){
+        var url = '/delete_test/'
+        $.ajax({
+            method: 'POST',
+            url: url,
+            data: data,
+            success: function(){
+
+            }
+        })
+	}
+
+	var tests = []
+    var dataURL = '/tests_api/'
+    $.ajax({
+        method: 'GET',
+        url: dataURL,
+        success: function(response){
+            tests = response
+            console.log(tests)
+            for (var i in tests){
+                addRow(tests[i])
+            }
+        }
+    })
 
 	function addRow(obj){
 		let row =`<tr scope="row" class="test-row-${obj.id}">
@@ -135,7 +176,7 @@
 		var value = $(this).html()
 
 		$(this).unbind()
-		$(this).html(`<input class="result form-control" data-testid="${testid}" type="text" value="${value}">`)
+		$(this).html(`<input class="result form-control" id="test-${testid}" data-testid="${testid}" type="text" value="${value}">`)
 
 		$(`.result`).on('keyup', function(){
 			var testid = $(this).data('testid')
@@ -155,6 +196,10 @@
 		saveBtn.prop('disabled', true)
 		row.css('opacity', "0.5")
 
+		var result = $(`#test-${testid}`).val()
+		var data = {"id":testid, "result":result}
+		updateTestPOST(data)
+
 		setTimeout(function(){
 			row.css('opacity', '1')
 		}, 2000)
@@ -173,6 +218,7 @@
 
         cancelBtn.removeClass('hidden')
         confirmBtn.removeClass('hidden')
+
 	}
 
 	function cancelDeletion(){
@@ -193,7 +239,9 @@
     function confirmDeletion(){
 		var testid = $(this).data('testid')
 		var row = $(`.test-row-${testid}`)
-		row.remove()
+        row.remove()
+		var data = {"id":testid}
+		deleteTestPOST(data)
 	}
 </script>
 
