@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'model_form.apps.ModelFormConfig'
+    'model_form.apps.ModelFormConfig',
+    'render_html_to_pdf.apps.RenderHtmlToPdfConfig'
 ]
 
 MIDDLEWARE = [

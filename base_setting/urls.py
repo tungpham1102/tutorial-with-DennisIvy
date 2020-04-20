@@ -21,5 +21,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
-    path('model_form', include('model_form.urls'))
+    path('model_form/', include('model_form.urls')),
+    path('html_to_pdf/', include('render_html_to_pdf.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
