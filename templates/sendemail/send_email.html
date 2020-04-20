@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Send Email
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h3>Contact Form</h3>
+
+    <form action="{% url 'send_email' %}" method="POST">
+        {% csrf_token %}
+        <textarea name="message" id="" cols="30" rows="10"></textarea>
+        <input type="submit">
+    </form>
+</div>
+{% endblock %}

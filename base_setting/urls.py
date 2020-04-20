@@ -23,4 +23,5 @@ urlpatterns = [
     path('', include('core.urls')),
     path('model_form/', include('model_form.urls')),
     path('html_to_pdf/', include('render_html_to_pdf.urls')),
+    path('send_email/', include('send_email.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

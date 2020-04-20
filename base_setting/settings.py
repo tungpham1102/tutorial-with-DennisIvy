@@ -25,6 +25,13 @@ SECRET_KEY = 'w(sn+)at%18_*m_*m4e6t6k37m=p3xhj@vz6xa!rs$_$=8k*0t'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+EMAIL_HOST = 'smtp.zoho.com'
+EMAIL_HOST_USER = 'tungpham1029@gmail.com'
+EMAIL_HOST_PASSWORD = 'Tung1377'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 ALLOWED_HOSTS = []
 
 
@@ -39,7 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'model_form.apps.ModelFormConfig',
-    'render_html_to_pdf.apps.RenderHtmlToPdfConfig'
+    'render_html_to_pdf.apps.RenderHtmlToPdfConfig',
+    'send_email.apps.SendEmailConfig',
 ]
 
 MIDDLEWARE = [
