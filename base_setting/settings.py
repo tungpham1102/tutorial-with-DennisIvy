@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'model_form.apps.ModelFormConfig',
     'render_html_to_pdf.apps.RenderHtmlToPdfConfig',
     'send_email.apps.SendEmailConfig',
+    'donate.apps.DonateConfig',
 ]
 
 MIDDLEWARE = [
@@ -136,3 +137,5 @@ MEDIA_URL = '/media/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
