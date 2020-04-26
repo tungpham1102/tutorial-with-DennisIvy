@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 
 from core.models import Customer
 from .decorators import unauthenticated_user, allowed_users
-from .forms import CreateUserForm
+from .forms import CreateUserForm, CustomerForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Group
@@ -20,10 +20,11 @@ def register_page(request):
             user = form.save()
             username = form.cleaned_data.get('username')
 
-            group  = Group.objects.get(name='customer')
+            group = Group.objects.get(name='customer')
             user.groups.add(group)
             Customer.objects.create(
-                user=user
+                user=user,
+                name=user.username,
             )
 
             messages.success(request, 'Account was create for ' + username)
@@ -71,5 +72,20 @@ def user_page(request):
         "pending": pending
     }
     return render(request, 'account/user-page.html', context)
+
+
+@login_required(login_url='account:login')
+@allowed_users(allowed_roles=['customer'])
+def setting(request):
+    customer = request.user.customer
+    form = CustomerForm(instance=customer)
+    if request.method == 'POST':
+        form = CustomerForm(request.POST, request.FILES, instance=customer)
+        if form.is_valid():
+            form.save()
+    context = {
+        'form': form
+    }
+    return render(request, 'account/setting.html', context)
 
 
