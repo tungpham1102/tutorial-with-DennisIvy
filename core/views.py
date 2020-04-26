@@ -39,7 +39,7 @@ def products(request):
     return render(request, 'core/products.html', context)
 
 
-@login_required(login_url='account:login')
+@login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def customer(request, pk):
     customer = Customer.objects.get(id=pk)
@@ -56,7 +56,7 @@ def customer(request, pk):
     return render(request, 'core/customer.html', context)
 
 
-@login_required(login_url='account:login')
+@login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def create_order(request, pk):
     OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra=10)
@@ -75,7 +75,7 @@ def create_order(request, pk):
     return render(request, 'core/order_form.html', context)
 
 
-@login_required(login_url='account:login')
+@login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def update_order(request, pk):
     order = Order.objects.get(id=pk)
@@ -91,7 +91,7 @@ def update_order(request, pk):
     return render(request, 'core/order_form.html', context)
 
 
-@login_required(login_url='account:login')
+@login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def delete_order(request, pk):
     order = Order.objects.get(id=pk)

@@ -21,7 +21,7 @@ def register_page(request):
             username = form.cleaned_data.get('username')
 
             messages.success(request, 'Account was create for ' + username)
-            return redirect('account:login')
+            return redirect('login')
     context = {
         'form': form
     }
@@ -47,10 +47,10 @@ def login_page(request):
 
 def logout_user(request):
     logout(request)
-    return redirect('account:login')
+    return redirect('login')
 
 
-@login_required(login_url='account:login')
+@login_required(login_url='login')
 @allowed_users(allowed_roles=['customer'])
 def user_page(request):
     orders = request.user.customer.order_set.all()
@@ -67,7 +67,7 @@ def user_page(request):
     return render(request, 'account/user-page.html', context)
 
 
-@login_required(login_url='account:login')
+@login_required(login_url='login')
 @allowed_users(allowed_roles=['customer'])
 def setting(request):
     customer = request.user.customer
