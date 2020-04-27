@@ -25,7 +25,7 @@ SECRET_KEY = 'qgo6+nk#8oc63!_ko8^saj4de%%%b2o)b3vm@(7fij%z2esefk'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', "crashcourse1029.herokuapp.com"]
 
 
 # Application definition
@@ -45,6 +45,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -81,8 +84,12 @@ WSGI_APPLICATION = 'crash_course.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'DEMO_TEST',
+        'USER': 'postgres',
+        'PASSWORD': 'StrongPassword',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 
@@ -132,6 +139,13 @@ STATICFILES_DIRS = [
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+if os.getcwd() == '/app':
+    DEBUG=False
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+
 
 #Http Configuration
 
@@ -141,3 +155,4 @@ EMAIL_POST = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'phamtung1377@gmail.com'
 EMAIL_HOST_PASSWORD = 'Tung1029 '
+

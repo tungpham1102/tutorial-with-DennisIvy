@@ -1,0 +1,1 @@
+web: gunicorn crash_course.wsgi --log-file -

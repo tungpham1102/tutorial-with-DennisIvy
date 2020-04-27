@@ -9,7 +9,8 @@ from .filters import OrderFilter
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-@login_required()
+
+@login_required(login_url='login')
 @admin_only
 def home(request):
     orders = Order.objects.all()
@@ -29,7 +30,7 @@ def home(request):
     return render(request, 'core/home.html', context)
 
 
-@login_required()
+@login_required(login_url='login')
 @allowed_users(allowed_roles=['admin'])
 def products(request):
     products = Product.objects.all()
